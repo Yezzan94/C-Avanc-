@@ -1,9 +1,6 @@
 cmake_minimum_required(VERSION 3.0)
+project(cartesian_vector_param)
 
-    project(cartesian_vector)
+set(CMAKE_CXX_STANDARD 14)
 
-        add_library(mysource SHARED main.cc)
-
-            add_executable(main main.cc)
-
-                target_link_libraries(main mysource)
+add_executable(main main_new.cc)
