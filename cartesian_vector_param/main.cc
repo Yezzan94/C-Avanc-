@@ -1,10 +1,11 @@
 // vector-test.cc
 #include <iostream>
 
+#include "config.h"
 #include "vector.hh"
 
 #include <vector>
-#include <cstring> //strcmp
+#include <cstring> //std::strcmp
 
 #if NDIM == 2
 void testInit()
@@ -14,7 +15,7 @@ void testInit()
     auto v = Vector{ 4, 7 };
     auto t = Vector{ -1, 6 };
 
-    std::cout << u + v << '\n'; // {4,7}
+    std::cout << (u + v) << '\n'; // {4,7}
     u += Vector{ 1, 8 };
     std::cout << u << '\n'; // {1,8}
     t -= u;
@@ -50,34 +51,35 @@ void testInit()
 }
 #endif
 
-
 std::vector<Vector>
 generate(size_t n)
 {
-    auto v = std::vector<Vector>(n);
-    // Set some values
-    for (size_t i = 0; i < NDIM; ++i)
-        {
-            for (size_t j = 0; j < n; ++j)
-                {
-                    auto& vv = v[j]; // Reference to one of your Vectors
-                    vv[i] = (value) i+j;
-                }
-        }
-    return v;
+  // Create a "list" holding n distinct instances of Vector
+  auto v = std::vector<Vector>(n);
+  // Set some values
+  for (size_t i = 0; i < NDIM; ++i)
+  {
+    for (size_t j = 0; j < n; ++j)
+    {
+      // Reference to one of your Vectors
+      auto& vv = v[j];
+      // Set the value of the i'th dimension
+      vv[i] = (value) i+j;
+    }
+  }
+  return v;
 }
 
 // Takes the number of Vectors used as an argument
 void testAdd(size_t n)
 {
-    auto vv = generate(n);
-
-    // Add to each Vector his right neighbour
+    // Add to each Vector his right neighbour if he has one
+    auto v = generate(n);
     for (size_t i = 1; i < n; ++i)
-        vv[i-1] += vv[i];
+        v[i-1] += v[i];
     // Sum them up
-    auto sum = Vector(); // Expected to be all zeros
-    for (const auto& other : vv)
+    auto sum = Vector{}; // Expected to be all zeros
+    for (const auto& other : v)
         sum = sum + other;
     // Print for verif
     std::cout << sum << '\n';
