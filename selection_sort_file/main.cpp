@@ -1,10 +1,8 @@
-// Do not change me
-
 #include <iostream>
 
 #include <string>
 
-#include "sort_file.hpp"
+#include "sort_file.h"
 
 
 int main(int argc, char *argv[]) {
